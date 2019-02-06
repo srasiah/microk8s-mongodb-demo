@@ -91,6 +91,19 @@ You should see that the two records inserted earlier, are still present.
     $ kubectl expose pod mongod-0 --type=NodePort
     $ kubectl expose pod mongod-1 --type=NodePort
     $ kubectl expose pod mongod-2 --type=NodePort
+#### 1.4.1 Identify the ports
+If you list your services, you now see the individual ports
+
+    $ kubectl get svc
+        mongod-0          NodePort    10.152.183.223   <none>        27017:31316/TCP   19s
+        mongod-1          NodePort    10.152.183.146   <none>        27017:31648/TCP   8s
+        mongod-2          NodePort    10.152.183.116   <none>        27017:30471/TCP   4s
+
+reading: it maps internal port 27017 of each pod to the physical node address to port 31316, 31648 and 30471
+
+now the connection string would look like this:
+
+`mongodb://{IP-OF-THE-CLUSTER}:31316,{IP-OF-THE-CLUSTER}:31648,{IP-OF-THE-CLUSTER}:30471/`
 
 ### 1.5 Undeploying & Cleaning Down the Kubernetes Environment
 
