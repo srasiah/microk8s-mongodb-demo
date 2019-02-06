@@ -91,7 +91,7 @@ You should see that the two records inserted earlier, are still present.
     $ kubectl expose pod mongod-0 --type=NodePort
     $ kubectl expose pod mongod-1 --type=NodePort
     $ kubectl expose pod mongod-2 --type=NodePort
-#### 1.4.1 Identify the ports
+#### 1.4.1 Identify the individual ports
 If you list your services, you now see the individual ports
 
     $ kubectl get svc
