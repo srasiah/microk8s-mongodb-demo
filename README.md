@@ -1,6 +1,6 @@
-# MongoDB Deployment Demo for Kubernetes on Minikube (i.e. running on local workstation)
+# MongoDB Deployment Demo for Kubernetes on MIcrok8s (i.e. running on local workstation)
 
-An example project demonstrating the deployment of a MongoDB Replica Set via Kubernetes on Minikube (Kubernetes running locally on a workstation). Contains example Kubernetes YAML resource files (in the 'resource' folder) and associated Kubernetes based Bash scripts (in the 'scripts' folder) to configure the environment and deploy a MongoDB Replica Set.
+An example project demonstrating the deployment of a MongoDB Replica Set via Kubernetes on Microk8s (Kubernetes running locally on a workstation). Contains example Kubernetes YAML resource files (in the 'resource' folder) and associated Kubernetes based Bash scripts (in the 'scripts' folder) to configure the environment and deploy a MongoDB Replica Set.
 
 For further background information on what these scripts and resource files do, plus general information about running MongoDB with Kubernetes, see: [http://k8smongodb.net/](http://k8smongodb.net/)
 
@@ -13,15 +13,8 @@ Ensure the following dependencies are already fulfilled on your host Linux/Windo
 
 1. The [VirtualBox](https://www.virtualbox.org/wiki/Downloads) hypervisor has been installed.
 2. The [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) command-line tool for Kubernetes has been installed.
-3. The [Minikube](https://github.com/kubernetes/minikube/releases) tool for running Kubernetes locally has been installed.
-4. The Minikube cluster has been started, inside a local Virtual Machine, using the following command (also includes commands to check that kubectl is configured correctly to see the running minikube pod):
-
-    ```
-    $ minikube start
-    $ kubectl get nodes
-    $ kubectl describe nodes
-    $ kubectl get services
-    ```
+3. The [Microk8s](https://microk8s.io/) tool for running Kubernetes locally has been installed.
+4. The Microk8s cluster has been started, inside a local Virtual Machine, using the following command (also includes commands to check that kubectl is configured correctly to see the running microk8s pod): https://microk8s.io/#quick-start
 
 ### 1.2 Main Deployment Steps 
 
@@ -45,9 +38,6 @@ Ensure the following dependencies are already fulfilled on your host Linux/Windo
     ```
 
 You should now have a MongoDB Replica Set initialised, secured and running in a Kubernetes StatefulSet.
-
-You can also view the the state of the deployed environment, via the Kubernetes dashboard, which can be launched in a browser with the following command: `$ minikube dashboard`
-
 
 ### 1.3 Example Tests To Run To Check Things Are Working
 
@@ -96,8 +86,13 @@ As before, keep re-running the last command above, until you can see that all 3 
     > db.testcoll.find();
     
 You should see that the two records inserted earlier, are still present.
+### 1.4 Expose MongoDB Replica Set
 
-### 1.4 Undeploying & Cleaning Down the Kubernetes Environment
+    $ kubectl expose pod mongod-0 --type=NodePort
+    $ kubectl expose pod mongod-1 --type=NodePort
+    $ kubectl expose pod mongod-2 --type=NodePort
+
+### 1.5 Undeploying & Cleaning Down the Kubernetes Environment
 
 Run the following script to undeploy the MongoDB Service & StatefulSet.
 
@@ -105,8 +100,7 @@ Run the following script to undeploy the MongoDB Service & StatefulSet.
 
 If you want, you can shutdown the Minikube virtual machine with the following command.
 
-    $ minikube stop
-    
+    $ microk8s.stop
 
 ## 2 Project Details
 
