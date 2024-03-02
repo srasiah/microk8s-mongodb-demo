@@ -4,11 +4,11 @@
 ##
 
 # Delete mongod stateful set + mongodb service + secrets + host vm configuer daemonset
-kubectl delete statefulsets mongod
-kubectl delete services mongodb-service
-kubectl delete secret shared-bootstrap-data
+microk8s kubectl delete statefulsets mongod -n dev
+microk8s kubectl delete services mongodb-service -n dev
+microk8s kubectl delete secret shared-bootstrap-data -n dev
 sleep 3
 
 # Delete persistent volume claims
-kubectl delete persistentvolumeclaims -l role=mongo
+microk8s kubectl delete persistentvolumeclaims -l role=mongo -n dev
 
